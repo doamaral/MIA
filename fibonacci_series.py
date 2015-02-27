@@ -22,7 +22,7 @@ def fibonacci_recursivo(n):
 
 # print("Fibonacci de 4")
 #print(fibonacci_iterativo(4))
-num = 51
+num = 30
 
 print("Abordagem Iterativa")
 for i in range(1, num, 1):
