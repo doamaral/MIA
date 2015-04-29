@@ -13,5 +13,6 @@ def menor(vetor, i, f):
 
 v = [112, 100, 3, 1, 80, 105]
 vet = [2, 10, 30, 41, 85, 15]
+vetor = [2, 10, 30, 41, 85, 15]
 
-print(menor(vet, 0, 5))
+print(menor(vetor, 0, 5))
