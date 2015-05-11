@@ -1,7 +1,7 @@
-__author__ = 'Usuário'
+__author__ = 'Lucas Amaral'
 import random
 
-from env.individualmatrix import IndividualsMatrix
+from envsim.individualmatrix import IndividualsMatrix
 
 mat = IndividualsMatrix(10)
 mat.parseMatrix()
