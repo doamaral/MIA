@@ -3,7 +3,7 @@ import random
 from envsim.individualmatrix import IndividualsMatrix
 
 f = open('result.csv', 'w')
-f.write('Saudaveis;Imunes;Pseudo-Imunes;Infectados;Total\n')
+f.write('Saudaveis;Imunes;Pseudo-Imunes;Infectados;Mortos;Total\n')
 
 #Criação do Ambiente
 mat = IndividualsMatrix(10)

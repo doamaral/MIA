@@ -10,6 +10,7 @@ class IndividualsMatrix:
     healthy = 0
     imune = 0
     pimune = 0
+    dead = 0
 
     def __init__(self, dim):
         self.dim = dim
@@ -38,6 +39,7 @@ class IndividualsMatrix:
         self.healthy = 0
         self.imune = 0
         self.pimune = 0
+        self.dead = 0
         for i in range(self.dim):
             for j in range(self.dim):
                 if self.mtx[i][j].health == 'S':
@@ -48,16 +50,20 @@ class IndividualsMatrix:
                     self.imune = self.imune + 1
                 elif self.mtx[i][j].health == '@':
                     self.pimune = self.pimune + 1
-                print(self.mtx[i][j].health, sep='', end='  ')
+                elif self.mtx[i][j].health == 'D':
+                    self.dead = self.dead + 1
+                self.mtx[i][j].decayAge()
+                print("%s %d" % (self.mtx[i][j].health, self.mtx[i][j].age), sep='', end='  ')
             print('',sep='',end='\n')
         print("-------------------")
-        print("Total de Individuos: %d" % (self.dim * self.dim))
         print("Total de Individuos Sadios: %d" % self.healthy)
         print("Total de Individuos Imunes: %d" % self.imune)
         print("Total de Individuos Pseudo: %d" % self.pimune)
         print("Total de Individuos Infect: %d" % self.infected)
+        print("Total de Individuos Mortos: %d" % self.dead)
+        print("Total de Individuos: %d" % (self.dim * self.dim))
         print("-------------------")
-        res.write('%d;%d;%d;%d;%d\n' % (self.healthy, self.imune, self.pimune, self.infected, (self.dim * self.dim)))
+        res.write('%d;%d;%d;%d;%d;%d\n' % (self.healthy, self.imune, self.pimune, self.infected, self.dead, (self.dim * self.dim)))
 
     def moveIndividual(self, i, j, newx, newy):
         self.mtx[i][j].movestatus = True
