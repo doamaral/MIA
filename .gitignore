@@ -9,7 +9,6 @@ __pycache__/
 
 # Distribution / packaging
 .Python
-pest/envsim/
 build/
 develop-eggs/
 dist/
