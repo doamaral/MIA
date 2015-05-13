@@ -19,8 +19,9 @@ while goon == "s":
     iteration = iteration + 1
 
     #Busca Infectantes e tenta infectar os vizinhos
+    print("-------------------")
     mat.infectNeighborhood()
-
+    print("-------------------")
     #Imprimir a Matriz
     mat.parseMatrix(f)
 

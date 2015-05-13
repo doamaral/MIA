@@ -35,14 +35,19 @@ class Individual:
     def infectIndividual(self, target):
         infectionPower = random.randint(1, 9)
         if target.health != 'O':
-           # print("[%s P:%d I:%d] tentando infectar [%s P:%d I:%d] com %d de Poder de infecção" % (self.health, self.power, self.infectionAbility, target.health, target.power, target.infectionAbility, infectionPower), end=" ")
+            print("[%s P:%d I:%d] tentando infectar [%s P:%d I:%d] com %d de Poder de infecção" % (self.health, self.power, self.infectionAbility, target.health, target.power, target.infectionAbility, infectionPower), end=' | ')
             if self.infectionAbility:
+                print("Virus Ativo", end=' | ')
                 if target.power < infectionPower:
                     target.health = 'O'
                     target.infectionAbility = 0
                     if target.life > 4:
                         target.setLife(4)
-                        print("Nova idade")
+                    print("Infectado")
+                else:
+                    print("Poder de Infecção insuficiente",)
+            else:
+                print("Virus Inativo")
 
     def decayLife(self):
         if self.life > 1:
