@@ -1,5 +1,5 @@
 import random
-from envsim.individual import Individual
+from pest.envsim.individual import Individual
 
 __author__ = 'Lucas Amaral'
 
@@ -17,23 +17,6 @@ class IndividualsMatrix:
         self.mtx = [[Individual() for count in range(self.dim)] for k in range(self.dim)]
         self.insertVirus()
 
-    def phantomParseMatrix(self):
-        self.infected = 0
-        self.healthy = 0
-        self.imune = 0
-        self.pimune = 0
-
-        for i in range(self.dim):
-            for j in range(self.dim):
-                if self.mtx[i][j].health == 'S':
-                    self.healthy += 1
-                elif self.mtx[i][j].health == 'O':
-                    self.infected += 1
-                elif self.mtx[i][j].health == '*':
-                    self.imune += 1
-                elif self.mtx[i][j].health == '@':
-                    self.pimune += 1
-
     def parseMatrix(self, res):
         self.infected = 0
         self.healthy = 0
@@ -42,6 +25,7 @@ class IndividualsMatrix:
         self.dead = 0
         for i in range(self.dim):
             for j in range(self.dim):
+                self.mtx[i][j].decayLife()
                 if self.mtx[i][j].health == 'S':
                     self.healthy = self.healthy + 1
                 elif self.mtx[i][j].health == 'O':
@@ -50,11 +34,10 @@ class IndividualsMatrix:
                     self.imune = self.imune + 1
                 elif self.mtx[i][j].health == '@':
                     self.pimune = self.pimune + 1
-                elif self.mtx[i][j].health == 'D':
+                elif self.mtx[i][j].health == 'X':
                     self.dead = self.dead + 1
-                self.mtx[i][j].decayAge()
-                print("%s %d" % (self.mtx[i][j].health, self.mtx[i][j].age), sep='', end='  ')
-            print('',sep='',end='\n')
+                print("[(%s) L:%d P:%d I: %d]" % (self.mtx[i][j].health, self.mtx[i][j].life, self.mtx[i][j].power, self.mtx[i][j].infectionAbility), sep='', end='  ')
+            print('', sep='', end='\n')
         print("-------------------")
         print("Total de Individuos Sadios: %d" % self.healthy)
         print("Total de Individuos Imunes: %d" % self.imune)
@@ -87,12 +70,13 @@ class IndividualsMatrix:
         :return:
         """
         inf = False
-        while inf:
+        while not inf:
             i = random.randint(0, self.dim-1)
             j = random.randint(0, self.dim-1)
             if self.mtx[i][j].health == 'S':
                 self.mtx[i][j].health = 'O'
                 self.mtx[i][j].infectionAbility = 1
+                self.mtx[i][j].setLife(4)
                 self.updateNumberOfInfected()
                 inf = True
 
@@ -121,6 +105,12 @@ class IndividualsMatrix:
                         #Tenta infectar o da direita se existir
                         #print("Tenta infectar o da direita")
                         self.mtx[i][j].infectIndividual(self.mtx[i][j+1])
+
+    def activateVirus(self):
+        for i in range(self.dim):
+            for j in range(self.dim):
+                if self.mtx[i][j].health == 'O' and not self.mtx[i][j].infectionAbility:
+                    self.mtx[i][j].infectionAbility += 1
 
     def moveInfected(self):
         """
