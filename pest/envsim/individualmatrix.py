@@ -26,6 +26,7 @@ class IndividualsMatrix:
         for i in range(self.dim):
             for j in range(self.dim):
                 self.mtx[i][j].decayLife()
+                self.mtx[i][j].movestatus = False
                 if self.mtx[i][j].health == 'S':
                     self.healthy = self.healthy + 1
                 elif self.mtx[i][j].health == 'O':
@@ -47,12 +48,6 @@ class IndividualsMatrix:
         print("Total de Individuos: %d" % (self.dim * self.dim))
         print("-------------------")
         res.write('%d;%d;%d;%d;%d;%d\n' % (self.healthy, self.imune, self.pimune, self.infected, self.dead, (self.dim * self.dim)))
-
-    def moveIndividual(self, i, j, newx, newy):
-        self.mtx[i][j].movestatus = True
-        aux = self.mtx[i][j]
-        self.mtx[i][j] = self.mtx[newx][newy]
-        self.mtx[newx][newy] = aux
 
     def updateNumberOfInfected(self):
         self.infected = 0
@@ -112,9 +107,36 @@ class IndividualsMatrix:
                 if self.mtx[i][j].health == 'O' and not self.mtx[i][j].infectionAbility:
                     self.mtx[i][j].infectionAbility += 1
 
+    def moveIndividual(self, i, j, newx, newy):
+        aux = self.mtx[i][j]
+        self.mtx[i][j] = self.mtx[newx][newy]
+        self.mtx[newx][newy] = aux
+
     def moveInfected(self):
         """
         :return:
         """
-        #TODO
-
+        for i in range(self.dim):
+            for j in range(self.dim):
+                if self.mtx[i][j].health == "O" and not self.mtx[i][j].movestatus:
+                    #0 = move na vertical / 1 = move na horizontal
+                    moveopt = random.randint(0,1)
+                    step = random.randint(-1,1)
+                    print("Step: %d " % step, end=" ")
+                    if moveopt == 0:
+                        print("Vertical", end=" ")
+                        if i + step >= 0 and i + step < self.dim:
+                            newx = i + step
+                        else:
+                            newx = i
+                        newy = j
+                    else:
+                        print("Horizontal", end=" ")
+                        if j + step >= 0 and j + step < self.dim:
+                            newy = j + step
+                        else:
+                            newy = j
+                        newx = i
+                    self.moveIndividual(i, j, newx, newy)
+                    self.mtx[newx][newy].movestatus = True
+                    print("[%d, %d] -> [%d, %d]" % (i, j, newx, newy))

@@ -20,7 +20,7 @@ class Individual:
             self.power = 9
         elif opt == 4:
             self.health = '@'
-            self.life = 10
+            self.life = 4
             self.power = random.randint(0, 9)
 
     def killIndividual(self):
@@ -34,15 +34,15 @@ class Individual:
 
     def infectIndividual(self, target):
         infectionPower = random.randint(1, 9)
-        if target.health != 'O':
+        if target.health != 'O' and target.health != 'X':
             print("[%s P:%d I:%d] tentando infectar [%s P:%d I:%d] com %d de Poder de infecção" % (self.health, self.power, self.infectionAbility, target.health, target.power, target.infectionAbility, infectionPower), end=' | ')
             if self.infectionAbility:
                 print("Virus Ativo", end=' | ')
                 if target.power < infectionPower:
                     target.health = 'O'
                     target.infectionAbility = 0
-                    if target.life > 4:
-                        target.setLife(4)
+                    if target.life > 3:
+                        target.setLife(3)
                     print("Infectado")
                 else:
                     print("Poder de Infecção insuficiente",)

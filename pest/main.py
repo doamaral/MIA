@@ -2,33 +2,42 @@ __author__ = 'Lucas Amaral'
 import random
 from pest.envsim.individualmatrix import IndividualsMatrix
 
+#Prepara arquivo de log a ser utilizado
 f = open('result.csv', 'w')
 f.write('Saudaveis;Imunes;Pseudo-Imunes;Infectados;Mortos;Total\n')
 
-#Criação do Ambiente
-mat = IndividualsMatrix(5)
+#Criação do Ambiente no seu estado inicial
+mat = IndividualsMatrix(10)
+iteration = 0
 
-#Imprimir a Matriz
+#Imprimir a Ambiente no seu estado inicial
 mat.parseMatrix(f)
+print("Iteration = %d" % iteration)
 
 goon = input("Este é o estado inicial, deseja iniciar? (s/n): ")
 
-iteration = 0
 
 while goon == "s":
     iteration = iteration + 1
+    print("-------------------")
+    print("### Iteration = %d ###" % iteration)
 
-    #Busca Infectantes e tenta infectar os vizinhos
-    print("-------------------")
+    #Busca Infectantes e Move
+    print("Moving...")
+    mat.moveInfected()
+    print("")
+
+    #Busca Infectantes e Infecta Vizinhança. Lembrando que Indivíduos infectados nessa Iteração não tem capacidade de infectar
+    print("Infecting...")
     mat.infectNeighborhood()
-    print("-------------------")
-    #Imprimir a Matriz
+    print("")
+
+    #Imprimir a Matriz após Movimentação e Infecção
+    print("New Configuration...")
     mat.parseMatrix(f)
 
-    #Ativa Virus em Infectados nesta iteração
+    #Ativar Virus em Indivíduos infectados nesta iteração
     mat.activateVirus()
-
-    print("Iteration = %d" % iteration)
 
     #Controle de Continuação do Jogo
     goon = input("Deseja prosseguir?: ")
