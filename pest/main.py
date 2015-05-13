@@ -1,28 +1,25 @@
 __author__ = 'Lucas Amaral'
-
-import libwork
 import random
+from envsim.individualmatrix import IndividualsMatrix
 
-tamanho = random.randint(10, 10)
-mat = [[" " for j in range(tamanho)] for i in range(tamanho)]
-print(tamanho)
-libwork.init_matrix(mat)
-iteration = 0
-print("initial state Iteration = %d" % iteration)
-libwork.print_matrix(mat)
-print("Quantidade de Infectados = %d" % libwork.num_infected(mat))
-print("--------------------------")
+f = open('result.csv', 'w')
+f.write('Saudaveis;Imunes;Pseudo-Imunes;Infectados;Mortos;Total\n')
+
+#Criação do Ambiente
+mat = IndividualsMatrix(10)
+#Imprimir a Matriz
+mat.parseMatrix(f)
+
 goon = input("Este é o estado inicial, deseja iniciar? (s/n): ")
+
+iteration = 0
 
 while goon == "s":
     iteration = iteration + 1
+    #Imprimir a Matriz
+    mat.parseMatrix(f)
+    mat.infectNeighborhood()
     print("Iteration = %d" % iteration)
-    #libwork.infecting_neighbors(mat)
-
-    libwork.walk(mat)
-
-    libwork.print_matrix(mat)
-    print("Quantidade de Infectados = %d" % libwork.num_infected(mat))
-    print("--------------------------")
     goon = input("Deseja prosseguir?: ")
 print("Simulations terminated, Thanks")
+f.close()

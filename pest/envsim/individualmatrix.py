@@ -87,11 +87,12 @@ class IndividualsMatrix:
         :return:
         """
         inf = False
-        while inf == False:
+        while inf:
             i = random.randint(0, self.dim-1)
             j = random.randint(0, self.dim-1)
             if self.mtx[i][j].health == 'S':
                 self.mtx[i][j].health = 'O'
+                self.mtx[i][j].infectionAbility = 1
                 self.updateNumberOfInfected()
                 inf = True
 
@@ -103,7 +104,7 @@ class IndividualsMatrix:
         """
         for i in range(self.dim):
             for j in range(self.dim):
-                if self.mtx[i][j].health == 'O':
+                if self.mtx[i][j].health == 'O' and self.mtx[i][j].infectionAbility:
                     if i-1 >= 0:
                         #Tenta infectar o de cima se existir
                         #print("Tenta infectar o de cima")
