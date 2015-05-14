@@ -25,7 +25,6 @@ class IndividualsMatrix:
         self.dead = 0
         for i in range(self.dim):
             for j in range(self.dim):
-                self.mtx[i][j].decayLife()
                 self.mtx[i][j].movestatus = False
                 if self.mtx[i][j].health == 'S':
                     self.healthy = self.healthy + 1
@@ -140,3 +139,28 @@ class IndividualsMatrix:
                     self.moveIndividual(i, j, newx, newy)
                     self.mtx[newx][newy].movestatus = True
                     print("[%d, %d] -> [%d, %d]" % (i, j, newx, newy))
+
+    def updateLifeCycle(self):
+        """
+        Atualizar idade de cada elemento
+        :return:
+        """
+        for i in range(self.dim):
+            for j in range(self.dim):
+                self.mtx[i][j].decayLife()
+
+    def birthControl(self):
+        """
+        :return:
+        """
+        #TODO
+        #Nascimentos acontecem em Células Mortas
+        #Probabilidade de Nascimento é de 80%
+        #Pode nascer em qualquer estado: Imune, Pseudo-imune, Sadio, Infectado
+
+    def submitFatalAccident(self):
+        """
+        :return:
+        """
+        #TODO
+        #Probabilidade de 10% de cada Individuo sofrer acidentes
