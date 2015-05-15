@@ -27,7 +27,9 @@ while goon == "s":
     print("### Iteration = %d ###" % iteration)
 
     #Realizar nascimentos
+    print("Giving birth...")
     mat.birthControl()
+    print("")
 
     #Busca Infectantes e Infecta Vizinhança. Indivíduos infectados nessa Iteração não tem capacidade de infectar
     print("Infecting...")

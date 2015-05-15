@@ -182,4 +182,4 @@ class IndividualsMatrix:
                 if random.randint(0,9) < 1:
                     self.mtx[i][j].killIndividual()
                     self.death_rate += 1
-                    print("Morreu de Acidente: posição [%d][%d]" % (i, j))
+                    print("Morreu por acidente: posição [%d][%d]" % (i, j))
