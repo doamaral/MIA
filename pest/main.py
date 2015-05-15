@@ -1,7 +1,9 @@
 __author__ = 'Lucas Amaral'
 import random
+import time
 from pest.envsim.individualmatrix import IndividualsMatrix
 
+inicio = time.time()
 #Prepara arquivo de log a ser utilizado
 f = open('result.csv', 'w')
 f.write('Iteraçao;Saudaveis;Imunes;Pseudo-Imunes;Infectados;Mortos;Total\n')
@@ -17,9 +19,7 @@ mat.parseMatrix(iteration, f)
 
 goon = input("Este é o estado inicial, deseja iniciar? (s/n): ")
 
-#iteration < 100
-#
-
+#iteration < 1000
 
 while goon == "s":
     iteration = iteration + 1
@@ -54,5 +54,7 @@ while goon == "s":
 
     #Controle de Continuação do Jogo
     goon = input("Deseja prosseguir?: ")
+fim = time.time()
+print('Tempo de Execução: %s' % (fim - inicio))
 print("Simulations terminated, Thanks")
 f.close()
