@@ -8,20 +8,40 @@ class Individual:
     infectionAbility = 0
     life = 0
 
-    def __init__(self):
-        opt = random.randint(0, 4)
-        if opt <= 2:
-            self.health = 'S'
-            self.life = 10
-            self.power = 0
-        elif opt == 3:
-            self.health = '*'
-            self.life = 10
-            self.power = 9
-        elif opt == 4:
-            self.health = '@'
-            self.life = 4
-            self.power = random.randint(0, 9)
+    def __init__(self, immunity, infected = False):
+        if not infected:
+            opt = random.randint(0, 4)
+            if opt <= 2:
+                self.health = 'S'
+                self.life = 10
+                self.power = 0
+            elif opt == 3:
+                self.health = '*'
+                self.life = 10
+                self.power = 9
+            elif opt == 4:
+                self.health = '@'
+                self.life = 4
+                self.power = immunity
+        else:
+            opt = random.randint(0, 5)
+            if opt <= 2:
+                self.health = 'S'
+                self.life = 10
+                self.power = 0
+            elif opt == 3:
+                self.health = '*'
+                self.life = 10
+                self.power = 9
+            elif opt == 4:
+                self.health = '@'
+                self.life = 4
+                self.power = immunity
+            elif opt == 5:
+                self.health = 'O'
+                self.life = 3
+                self.power = 0
+                self.infectionAbility = 0
 
     def killIndividual(self):
         self.setLife(0)

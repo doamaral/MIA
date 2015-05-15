@@ -11,13 +11,16 @@ class IndividualsMatrix:
     imune = 0
     pimune = 0
     dead = 0
+    birth_rate = 0
+    death_rate = 0
+    environmental_immunity = random.randint(0, 9)
 
     def __init__(self, dim):
         self.dim = dim
-        self.mtx = [[Individual() for count in range(self.dim)] for k in range(self.dim)]
+        self.mtx = [[Individual(self.environmental_immunity) for count in range(self.dim)] for k in range(self.dim)]
         self.insertVirus()
 
-    def parseMatrix(self, res):
+    def parseMatrix(self, iteration, res):
         self.infected = 0
         self.healthy = 0
         self.imune = 0
@@ -41,12 +44,14 @@ class IndividualsMatrix:
         print("-------------------")
         print("Total de Individuos Sadios: %d" % self.healthy)
         print("Total de Individuos Imunes: %d" % self.imune)
-        print("Total de Individuos Pseudo: %d" % self.pimune)
-        print("Total de Individuos Infect: %d" % self.infected)
+        print("Total de Individuos Pseudo-imunes: %d" % self.pimune)
+        print("Total de Individuos Infectados: %d" % self.infected)
         print("Total de Individuos Mortos: %d" % self.dead)
-        print("Total de Individuos: %d" % (self.dim * self.dim))
+        print("Total de Individuos Nasceram: %d" % self.birth_rate)
+        print("Total de Individuos Morreram: %d" % self.death_rate)
+        print("Total de Individuos População: %d" % (self.dim * self.dim))
         print("-------------------")
-        res.write('%d;%d;%d;%d;%d;%d\n' % (self.healthy, self.imune, self.pimune, self.infected, self.dead, (self.dim * self.dim)))
+        res.write('%d;%d;%d;%d;%d;%d;%d\n' % (iteration, self.healthy, self.imune, self.pimune, self.infected, self.dead, (self.dim * self.dim)))
 
     def updateNumberOfInfected(self):
         self.infected = 0
@@ -145,22 +150,36 @@ class IndividualsMatrix:
         Atualizar idade de cada elemento
         :return:
         """
+        self.death_rate = 0
         for i in range(self.dim):
             for j in range(self.dim):
                 self.mtx[i][j].decayLife()
+                if self.mtx[i][j].health == 'X':
+                    print("Morreu de Idade: posição [%d][%d]" % (i, j))
+                    self.death_rate += 1
 
     def birthControl(self):
         """
         :return:
         """
-        #TODO
-        #Nascimentos acontecem em Células Mortas
-        #Probabilidade de Nascimento é de 80%
-        #Pode nascer em qualquer estado: Imune, Pseudo-imune, Sadio, Infectado
+        self.birth_rate = 0
+        for i in range(self.dim):
+            for j in range(self.dim):
+                newborn_rate = random.randint(0, 9)
+                if self.mtx[i][j].health == 'X' and newborn_rate >= 2:
+                    #Parametro True indica que esse individuo pode nascer infectado
+                    newborn = Individual(self.environmental_immunity, True)
+                    self.mtx[i][j] = newborn
+                    self.birth_rate += 1
+                    print("Nasceu: posição [%d][%d] um [%s L:%d P:%d I:%d]" % (i, j, self.mtx[i][j].health, self.mtx[i][j].life, self.mtx[i][j].power, self.mtx[i][j].infectionAbility))
 
     def submitFatalAccident(self):
         """
         :return:
         """
-        #TODO
-        #Probabilidade de 10% de cada Individuo sofrer acidentes
+        for i in range(self.dim):
+            for j in range(self.dim):
+                if random.randint(0,9) < 1:
+                    self.mtx[i][j].killIndividual()
+                    self.death_rate += 1
+                    print("Morreu de Acidente: posição [%d][%d]" % (i, j))
