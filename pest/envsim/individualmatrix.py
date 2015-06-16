@@ -13,6 +13,8 @@ class IndividualsMatrix:
     dead = 0
     birth_rate = 0
     death_rate = 0
+    it_infected = 0
+    it_death_accident = 0
     environmental_immunity = random.randint(0, 9)
 
     def __init__(self, dim):
@@ -45,13 +47,15 @@ class IndividualsMatrix:
         print("Total de Individuos Sadios: %d" % self.healthy)
         print("Total de Individuos Imunes: %d" % self.imune)
         print("Total de Individuos Pseudo-imunes: %d" % self.pimune)
-        print("Total de Individuos Infectados: %d" % self.infected)
+        print("Total de Individuos Doentes: %d" % self.infected)
+        print("Total de Infectantes Gerados: %d" % self.it_infected)
         print("Total de Individuos Mortos: %d" % self.dead)
+        print("Total de Individuos Acidentados: %d" % self.it_death_accident)
         print("Total de Individuos Nasceram: %d" % self.birth_rate)
-        print("Total de Individuos Morreram: %d" % self.death_rate)
+        print("Total de Individuos Morreram [acidentes + idade]: %d" % self.death_rate)
         print("Total de Individuos População: %d" % (self.dim * self.dim))
         print("-------------------")
-        res.write('%d;%d;%d;%d;%d;%d;%d\n' % (iteration, self.healthy, self.imune, self.pimune, self.infected, self.dead, (self.dim * self.dim)))
+        res.write('%d;%d;%d;%d;%d;%d;%d;%d;%d;%d;%d\n' % (iteration, self.healthy, self.imune, self.pimune, self.infected, self.it_infected, self.dead, self.it_death_accident, self.birth_rate, self.death_rate, (self.dim * self.dim)))
 
     def updateNumberOfInfected(self):
         self.infected = 0
@@ -85,25 +89,30 @@ class IndividualsMatrix:
         :param j: Coluna do Indivíduo infectado
         :return: VOID
         """
+        self.it_infected = 0
         for i in range(self.dim):
             for j in range(self.dim):
                 if self.mtx[i][j].health == 'O' and self.mtx[i][j].infectionAbility:
                     if i-1 >= 0:
                         #Tenta infectar o de cima se existir
                         #print("Tenta infectar o de cima")
-                        self.mtx[i][j].infectIndividual(self.mtx[i-1][j])
+                        if self.mtx[i][j].infectIndividual(self.mtx[i-1][j]):
+                            self.it_infected += 1
                     if i+1 < self.dim:
                         #Tenta infectar o de baixo se existir
                         #print("Tenta infectar o de baixo")
-                        self.mtx[i][j].infectIndividual(self.mtx[i+1][j])
+                        if self.mtx[i][j].infectIndividual(self.mtx[i+1][j]):
+                            self.it_infected += 1
                     if j-1 >= 0:
                         #Tenta infectar o da esquerda se existir
                         #print("Tenta infectar o da esquerda")
-                        self.mtx[i][j].infectIndividual(self.mtx[i][j-1])
+                        if self.mtx[i][j].infectIndividual(self.mtx[i][j-1]):
+                            self.it_infected += 1
                     if j+1 < self.dim:
                         #Tenta infectar o da direita se existir
                         #print("Tenta infectar o da direita")
-                        self.mtx[i][j].infectIndividual(self.mtx[i][j+1])
+                        if self.mtx[i][j].infectIndividual(self.mtx[i][j+1]):
+                            self.it_infected += 1
 
     def activateVirus(self):
         for i in range(self.dim):
@@ -177,9 +186,11 @@ class IndividualsMatrix:
         """
         :return:
         """
+        self.it_death_accident = 0
         for i in range(self.dim):
             for j in range(self.dim):
                 if random.randint(0,9) < 1:
                     self.mtx[i][j].killIndividual()
                     self.death_rate += 1
+                    self.it_death_accident += 1
                     print("Morreu por acidente: posição [%d][%d]" % (i, j))

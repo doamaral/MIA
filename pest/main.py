@@ -1,15 +1,19 @@
 __author__ = 'Lucas Amaral'
 import random
 import time
-from pest.envsim.individualmatrix import IndividualsMatrix
+from individualmatrix import IndividualsMatrix
+
+dimensao = int(input("Qual a dimensão da Matriz? (Sugestão: 5 a 10): "))
+
+ciclos = int(input("Quantos ciclos deve ter a simulação? (Sugestão: > 10): "))
 
 inicio = time.time()
 #Prepara arquivo de log a ser utilizado
 f = open('result.csv', 'w')
-f.write('Iteraçao;Saudaveis;Imunes;Pseudo-Imunes;Infectados;Mortos;Total\n')
+f.write('Iteraçao;Saudios;Imunes;Pseudo-Imunes;Doentes;Infectantes Gerados;Mortos;Acidentados;Nasceram;Morreram;Total\n')
 
 #Criação do Ambiente no seu estado inicial
-mat = IndividualsMatrix(100)
+mat = IndividualsMatrix(dimensao)
 iteration = 0
 
 #Imprimir a Ambiente no seu estado inicial
@@ -21,7 +25,7 @@ goon = input("Este é o estado inicial, deseja iniciar? (s/n): ")
 
 #iteration < 1000
 
-while goon == "s":
+while iteration < ciclos:
     iteration = iteration + 1
     print("-------------------")
     print("### Iteration = %d ###" % iteration)
@@ -54,8 +58,6 @@ while goon == "s":
     print("New Configuration...")
     mat.parseMatrix(iteration, f)
 
-    #Controle de Continuação do Jogo
-    goon = input("Deseja prosseguir?: ")
 fim = time.time()
 print('Tempo de Execução: %s' % (fim - inicio))
 print("Simulations terminated, Thanks")

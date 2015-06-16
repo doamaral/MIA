@@ -64,10 +64,12 @@ class Individual:
                     if target.life > 3:
                         target.setLife(3)
                     print("Infectado")
+                    return True
                 else:
                     print("Poder de Infecção insuficiente",)
             else:
                 print("Virus Inativo")
+        return False
 
     def decayLife(self):
         if self.life > 1:
