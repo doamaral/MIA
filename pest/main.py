@@ -1,7 +1,7 @@
 __author__ = 'Lucas Amaral'
-import random
+from random import randint
 import time
-from individualmatrix import IndividualsMatrix
+from envsim.individualmatrix import IndividualsMatrix
 
 dimensao = int(input("Qual a dimensão da Matriz? (Sugestão: 5 a 10): "))
 
@@ -61,4 +61,5 @@ while iteration < ciclos:
 fim = time.time()
 print('Tempo de Execução: %s' % (fim - inicio))
 print("Simulations terminated, Thanks")
+out = input("Press any key to  leave.")
 f.close()

@@ -1,5 +1,5 @@
 __author__ = 'Lucas Amaral'
-import random
+from random import randint
 
 class Individual:
     health = " "
@@ -10,7 +10,7 @@ class Individual:
 
     def __init__(self, immunity, infected = False):
         if not infected:
-            opt = random.randint(0, 4)
+            opt = randint(0, 4)
             if opt <= 2:
                 self.health = 'S'
                 self.life = 10
@@ -24,7 +24,7 @@ class Individual:
                 self.life = 4
                 self.power = immunity
         else:
-            opt = random.randint(0, 5)
+            opt = randint(0, 5)
             if opt <= 2:
                 self.health = 'S'
                 self.life = 10
@@ -53,7 +53,7 @@ class Individual:
         self.life = newage
 
     def infectIndividual(self, target):
-        infectionPower = random.randint(1, 9)
+        infectionPower = randint(1, 9)
         if target.health != 'O' and target.health != 'X':
             print("[%s P:%d I:%d] tentando infectar [%s P:%d I:%d] com %d de Poder de infecção" % (self.health, self.power, self.infectionAbility, target.health, target.power, target.infectionAbility, infectionPower), end=' | ')
             if self.infectionAbility:

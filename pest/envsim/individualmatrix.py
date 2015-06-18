@@ -1,5 +1,5 @@
-import random
-from pest.envsim.individual import Individual
+from random import randint
+from envsim.individual import Individual
 
 __author__ = 'Lucas Amaral'
 
@@ -15,7 +15,7 @@ class IndividualsMatrix:
     death_rate = 0
     it_infected = 0
     it_death_accident = 0
-    environmental_immunity = random.randint(0, 9)
+    environmental_immunity = randint(0, 9)
 
     def __init__(self, dim):
         self.dim = dim
@@ -74,8 +74,8 @@ class IndividualsMatrix:
         """
         inf = False
         while not inf:
-            i = random.randint(0, self.dim-1)
-            j = random.randint(0, self.dim-1)
+            i = randint(0, self.dim-1)
+            j = randint(0, self.dim-1)
             if self.mtx[i][j].health == 'S':
                 self.mtx[i][j].health = 'O'
                 self.mtx[i][j].infectionAbility = 1
@@ -133,8 +133,8 @@ class IndividualsMatrix:
             for j in range(self.dim):
                 if self.mtx[i][j].health == "O" and not self.mtx[i][j].movestatus:
                     #0 = move na vertical / 1 = move na horizontal
-                    moveopt = random.randint(0,1)
-                    step = random.randint(-1,1)
+                    moveopt = randint(0,1)
+                    step = randint(-1,1)
                     print("Step: %d " % step, end=" ")
                     if moveopt == 0:
                         print("Vertical", end=" ")
@@ -174,7 +174,7 @@ class IndividualsMatrix:
         self.birth_rate = 0
         for i in range(self.dim):
             for j in range(self.dim):
-                newborn_rate = random.randint(0, 9)
+                newborn_rate = randint(0, 9)
                 if self.mtx[i][j].health == 'X' and newborn_rate >= 2:
                     #Parametro True indica que esse individuo pode nascer infectado
                     newborn = Individual(self.environmental_immunity, True)
@@ -189,7 +189,7 @@ class IndividualsMatrix:
         self.it_death_accident = 0
         for i in range(self.dim):
             for j in range(self.dim):
-                if random.randint(0,9) < 1:
+                if randint(0,9) < 1:
                     self.mtx[i][j].killIndividual()
                     self.death_rate += 1
                     self.it_death_accident += 1
